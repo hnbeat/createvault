@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSession, getCurrentUser, getCookieName } from "@/lib/auth";
-import { getUserByEmail, createAccessRequest, getAccessRequestByEmail } from "@/db/queries";
+import { getUserByEmail, createUser, createAccessRequest, getAccessRequestByEmail } from "@/db/queries";
+
+const ADMIN_EMAIL = "hazar.bayindir@createadvertising.com";
 
 // POST /api/auth — login or request access
 export async function POST(request: NextRequest) {
@@ -20,6 +22,35 @@ export async function POST(request: NextRequest) {
         { error: "Only @createadvertising.com emails are allowed" },
         { status: 403 }
       );
+    }
+
+    // Bootstrap: admin email always gets created as admin on first login (for fresh deploys)
+    if (normalizedEmail === ADMIN_EMAIL) {
+      let user = await getUserByEmail(normalizedEmail);
+      if (!user) {
+        const result = await createUser(normalizedEmail, "Hazar", "admin");
+        user = result[0];
+      }
+      if (user) {
+        const token = await createSession({
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: user.role,
+        });
+        const response = NextResponse.json({
+          status: "logged_in",
+          user: { id: user.id, email: user.email, name: user.name, role: user.role },
+        });
+        response.cookies.set(getCookieName(), token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "lax",
+          maxAge: 60 * 60 * 24 * 7,
+          path: "/",
+        });
+        return response;
+      }
     }
 
     // Check if user exists (approved)
