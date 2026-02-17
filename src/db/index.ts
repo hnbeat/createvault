@@ -4,10 +4,12 @@ import Database from "better-sqlite3";
 import path from "path";
 import * as schema from "./schema";
 
-// During Next.js build, multiple workers open the same SQLite file → database locked.
-// Use an in-memory DB with schema so each worker gets its own isolated DB.
+// During Next.js build, use in-memory DB to avoid locking issues.
+// In production with a Railway volume, use /data/sqlite.db for persistence.
 const isBuild = process.env.NEXT_PHASE === "phase-production-build";
-const dbPath = isBuild ? ":memory:" : "sqlite.db";
+const dbPath = isBuild
+  ? ":memory:"
+  : process.env.DATABASE_PATH || "sqlite.db";
 
 const sqlite = new Database(dbPath);
 sqlite.pragma("journal_mode = WAL");
