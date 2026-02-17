@@ -19,7 +19,7 @@ export function ViewToggle() {
   };
 
   return (
-    <div className="flex items-center border border-bd">
+    <div className="flex items-center rounded-lg border border-bd overflow-hidden">
       {/* Grid view */}
       <button
         onClick={() => setView("grid")}

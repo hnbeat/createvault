@@ -51,7 +51,7 @@ export function ReferenceListItem({
       }`}
     >
       {/* Thumbnail */}
-      <div className="shrink-0 w-16 h-11 overflow-hidden bg-neutral-900">
+      <div className="shrink-0 w-16 h-11 overflow-hidden rounded-lg bg-neutral-900">
         {thumbnail ? (
           <img
             src={thumbnail}

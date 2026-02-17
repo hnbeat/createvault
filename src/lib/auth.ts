@@ -2,7 +2,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "createvault-secret-key-change-in-production-2024"
+  process.env.JWT_SECRET || "auris-secret-key-change-in-production-2024"
 );
 
 const COOKIE_NAME = "cv_session";

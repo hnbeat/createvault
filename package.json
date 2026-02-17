@@ -1,10 +1,11 @@
 {
-  "name": "createvault",
+  "name": "auris",
   "version": "1.0.0",
-  "description": "CreateVault — All your design & dev references in one place",
+  "description": "Auris — All your design & dev references in one place",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "next dev --hostname 127.0.0.1",
+    "preview": "next dev --hostname 127.0.0.1 --port 3002",
+    "build": "ulimit -n 10240 2>/dev/null || true; next build",
     "start": "npx drizzle-kit push 2>/dev/null || true && next start",
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",

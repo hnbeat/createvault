@@ -18,7 +18,7 @@ export function CategoryCard({
   return (
     <Link
       href={`/categories/${slug}`}
-      className="group flex flex-col border border-bd bg-neutral-950 transition-all hover:bg-white"
+      className="group flex flex-col rounded-xl border border-bd bg-neutral-950 transition-all hover:bg-white"
     >
       {/* Top section */}
       <div className="flex items-center justify-between border-b border-bd px-5 py-4">

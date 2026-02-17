@@ -76,7 +76,7 @@ export function ReferenceCard({
   }, [id]);
 
   return (
-    <div className="group relative flex flex-col overflow-hidden border border-bd bg-neutral-950">
+    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-bd bg-neutral-950">
       {/* Bookmark star — top right */}
       <button
         onClick={handleBookmark}
@@ -137,7 +137,7 @@ export function ReferenceCard({
         )}
         {/* Hover overlay with Visit button */}
         <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover:bg-black/40 transition-all duration-300">
-          <span className="border border-white bg-white/10 backdrop-blur-sm px-5 py-2 text-xs font-semibold uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <span className="rounded-lg border border-white bg-white/10 backdrop-blur-sm px-5 py-2 text-xs font-semibold uppercase tracking-widest text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             Visit Site ↗
           </span>
         </div>

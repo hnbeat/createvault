@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { SearchBar } from "../ui/SearchBar";
 import { useEffect, useState } from "react";
@@ -58,40 +59,6 @@ function NavIcon({ name }: { name: string }) {
   }
 }
 
-/* Pixel-art astronaut icon (16x16 style) */
-function AstronautIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
-      {/* Helmet */}
-      <rect x="5" y="1" width="6" height="1" fill="white" />
-      <rect x="4" y="2" width="1" height="1" fill="white" />
-      <rect x="11" y="2" width="1" height="1" fill="white" />
-      <rect x="3" y="3" width="1" height="3" fill="white" />
-      <rect x="12" y="3" width="1" height="3" fill="white" />
-      {/* Visor */}
-      <rect x="4" y="3" width="8" height="3" fill="#4af" opacity="0.6" />
-      {/* Visor shine */}
-      <rect x="5" y="3" width="2" height="1" fill="white" opacity="0.4" />
-      {/* Chin */}
-      <rect x="4" y="6" width="8" height="1" fill="white" />
-      {/* Body */}
-      <rect x="4" y="7" width="8" height="1" fill="#e0e0e0" />
-      <rect x="3" y="8" width="10" height="3" fill="white" />
-      {/* Backpack */}
-      <rect x="2" y="8" width="1" height="3" fill="#aaa" />
-      <rect x="13" y="8" width="1" height="3" fill="#aaa" />
-      {/* Belt */}
-      <rect x="3" y="10" width="10" height="1" fill="#facc15" />
-      {/* Legs */}
-      <rect x="4" y="11" width="3" height="2" fill="white" />
-      <rect x="9" y="11" width="3" height="2" fill="white" />
-      {/* Boots */}
-      <rect x="3" y="13" width="4" height="1" fill="#888" />
-      <rect x="9" y="13" width="4" height="1" fill="#888" />
-    </svg>
-  );
-}
-
 export function Header() {
   const pathname = usePathname();
   const router = useRouter();
@@ -114,7 +81,6 @@ export function Header() {
     router.refresh();
   };
 
-  // Build nav links based on user state
   const navLinks = [
     { href: "/", label: "Home", icon: "home" },
     { href: "/categories", label: "Categories", icon: "categories" },
@@ -132,11 +98,19 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-bd bg-neutral-950/80 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <span className="text-xl font-bold text-white tracking-tight">
-            Create Vault
+        <Link href="/" className="flex flex-col items-start shrink-0">
+          <Image
+            src="/auris-logo.svg"
+            alt="Auris"
+            width={100}
+            height={40}
+            className="h-7 w-auto"
+            priority
+          />
+          <span className="uppercase tracking-[0.3em] text-white/40 font-medium leading-none mt-0.5" style={{ fontSize: "7px" }}>
+            Vault
           </span>
         </Link>
 
@@ -154,7 +128,7 @@ export function Header() {
                 className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                   isActive
                     ? "bg-neutral-800 text-white"
-                    : "text-white/60 hover:bg-neutral-800/60 hover:text-white"
+                    : "text-neutral-50/60 hover:bg-neutral-800/60 hover:text-white"
                 }`}
               >
                 <NavIcon name={link.icon} />
@@ -164,13 +138,41 @@ export function Header() {
           })}
         </nav>
 
+        {/* Spacer */}
+        <div className="flex-1" />
+
         {/* Search */}
-        <div className="hidden sm:block w-60">
+        <div className="hidden sm:block w-60 shrink-0">
           <SearchBar />
         </div>
 
+        {/* User area */}
+        <div className="shrink-0">
+          {user ? (
+            <div
+              className="flex items-center cursor-pointer group"
+              onMouseEnter={() => setHovering(true)}
+              onMouseLeave={() => setHovering(false)}
+              onClick={handleLogout}
+            >
+              <div className="rounded-lg border border-bd bg-neutral-900/60 px-3 py-1.5 transition-colors group-hover:border-bd-light">
+                <span className="text-xs font-medium text-neutral-50/70 whitespace-nowrap group-hover:text-white transition-colors">
+                  {hovering ? "Log out" : `Hi, ${user.name}`}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="rounded-lg border border-bd bg-neutral-900/60 px-4 py-1.5 text-xs font-medium text-neutral-50/70 hover:bg-white hover:text-black hover:border-white transition-colors"
+            >
+              Sign In
+            </Link>
+          )}
+        </div>
+
         {/* Mobile menu button */}
-        <button className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg text-white/60 hover:bg-neutral-800">
+        <button className="md:hidden flex items-center justify-center w-10 h-10 shrink-0 rounded-lg text-white/60 hover:bg-neutral-800">
           <svg
             className="w-5 h-5"
             fill="none"
@@ -186,42 +188,6 @@ export function Header() {
           </svg>
         </button>
       </div>
-
-      {/* Astronaut + Speech Bubble — pinned to very top-right */}
-      {user ? (
-        <div
-          className="fixed top-3 right-4 z-[60] flex items-center gap-2 cursor-pointer"
-          onMouseEnter={() => setHovering(true)}
-          onMouseLeave={() => setHovering(false)}
-          onClick={handleLogout}
-        >
-          {/* Pixelated speech bubble */}
-          <div className="relative">
-            <div className="relative border-2 border-white/60 bg-neutral-950 px-3 py-1" style={{ imageRendering: "pixelated" }}>
-              {/* Pixel notch on right side */}
-              <div className="absolute -right-[6px] top-1/2 -translate-y-1/2 w-[6px] h-[8px]">
-                <div className="absolute top-0 right-0 w-[2px] h-[2px] bg-white/60" />
-                <div className="absolute top-[2px] right-0 w-[2px] h-[4px] bg-white/60" />
-                <div className="absolute top-[2px] right-[2px] w-[2px] h-[4px] bg-neutral-950" />
-                <div className="absolute top-[6px] right-0 w-[2px] h-[2px] bg-white/60" />
-              </div>
-              <span className="text-xs font-bold text-white whitespace-nowrap" style={{ fontFamily: "monospace" }}>
-                {hovering ? "Log out" : `Hi, ${user.name}`}
-              </span>
-            </div>
-          </div>
-          <AstronautIcon />
-        </div>
-      ) : (
-        <div className="fixed top-4 right-4 z-[60]">
-          <Link
-            href="/login"
-            className="border border-bd bg-neutral-950 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white hover:bg-white hover:text-black transition-colors"
-          >
-            Sign In
-          </Link>
-        </div>
-      )}
     </header>
   );
 }

@@ -43,11 +43,11 @@ export function TeamFavorites({ collections }: TeamFavoritesProps) {
             <Link
               key={col.id}
               href={`/collections/${col.slug}`}
-              className={`group relative flex flex-col justify-between border bg-gradient-to-br p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/30 ${colorClass}`}
+              className={`group relative flex flex-col justify-between rounded-xl border bg-gradient-to-br p-6 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-black/30 ${colorClass}`}
               style={{ minHeight: "160px" }}
             >
               {/* Initial badge */}
-              <div className={`flex h-10 w-10 items-center justify-center text-sm font-bold text-white ${accentClass}`}>
+              <div className={`flex h-10 w-10 items-center justify-center rounded-lg text-sm font-bold text-white ${accentClass}`}>
                 {initial}
               </div>
 

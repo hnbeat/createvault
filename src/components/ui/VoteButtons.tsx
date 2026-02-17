@@ -49,7 +49,7 @@ export function VoteButtons({ referenceId, initialVotes }: VoteButtonsProps) {
           handleVote("up");
         }}
         disabled={voting}
-        className="flex items-center justify-center w-7 h-7 text-white/40 hover:text-green-400 hover:bg-white/5 transition-colors disabled:opacity-40"
+        className="flex items-center justify-center w-7 h-7 rounded-md text-white/40 hover:text-green-400 hover:bg-white/5 transition-colors disabled:opacity-40"
         title="Upvote"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -72,7 +72,7 @@ export function VoteButtons({ referenceId, initialVotes }: VoteButtonsProps) {
           handleVote("down");
         }}
         disabled={voting}
-        className="flex items-center justify-center w-7 h-7 text-white/40 hover:text-red-400 hover:bg-white/5 transition-colors disabled:opacity-40"
+        className="flex items-center justify-center w-7 h-7 rounded-md text-white/40 hover:text-red-400 hover:bg-white/5 transition-colors disabled:opacity-40"
         title="Downvote"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">

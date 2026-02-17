@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -59,7 +60,6 @@ export default function LoginPage() {
         return;
       }
 
-      // Error
       setError(data.error || "Something went wrong");
       setStatus("idle");
     } catch {
@@ -72,34 +72,37 @@ export default function LoginPage() {
     <div className="flex min-h-[70vh] items-center justify-center">
       <div className="w-full max-w-sm space-y-8">
         {/* Logo area */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-white tracking-tight">
-            Create Vault
-          </h1>
-          <p className="mt-2 text-sm text-white/40">
+        <div className="flex flex-col items-center gap-4">
+          <Image
+            src="/auris-logo.svg"
+            alt="Auris"
+            width={160}
+            height={64}
+            className="h-10 w-auto"
+            priority
+          />
+          <p className="text-sm text-white/40">
             Your team&apos;s reference library
           </p>
         </div>
 
         {/* Status messages */}
         {(status === "requested" || status === "pending") && (
-          <div className="border border-yellow-500/30 bg-yellow-500/5 px-5 py-4 text-center">
-            <div className="text-2xl mb-2">🚀</div>
-            <p className="text-sm font-medium text-yellow-300">Access Requested</p>
+          <div className="rounded-xl border border-[#E09055]/30 bg-[#E09055]/5 px-5 py-4 text-center">
+            <p className="text-sm font-medium text-[#E09055]">Access Requested</p>
             <p className="mt-1 text-xs text-white/40">{message}</p>
             <p className="mt-3 text-xs text-white/20">An admin will review your request shortly.</p>
           </div>
         )}
 
         {status === "denied" && (
-          <div className="border border-red-500/30 bg-red-500/5 px-5 py-4 text-center">
-            <div className="text-2xl mb-2">🚫</div>
-            <p className="text-sm font-medium text-red-400">Access Denied</p>
+          <div className="rounded-xl border border-[#D4918A]/30 bg-[#D4918A]/5 px-5 py-4 text-center">
+            <p className="text-sm font-medium text-[#D4918A]">Access Denied</p>
             <p className="mt-1 text-xs text-white/40">{message}</p>
           </div>
         )}
 
-        {/* Login form — show when idle or loading */}
+        {/* Login form */}
         {(status === "idle" || status === "loading") && (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -112,26 +115,26 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="yourname@createadvertising.com"
-                className="w-full border border-bd bg-neutral-900 px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-white/40 transition-colors"
+                className="w-full rounded-lg border border-bd bg-neutral-900 px-4 py-3 text-sm text-white placeholder-white/20 outline-none focus:border-accent-400 focus:ring-1 focus:ring-accent-400/30 transition-colors"
                 autoFocus
               />
             </div>
 
             {error && (
-              <p className="text-sm text-red-400">{error}</p>
+              <p className="text-sm text-[#D4918A]">{error}</p>
             )}
 
             <button
               type="submit"
               disabled={status === "loading"}
-              className="w-full border border-white bg-white px-4 py-3 text-sm font-semibold uppercase tracking-widest text-black hover:bg-white/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full rounded-lg bg-white px-4 py-3 text-sm font-semibold text-black hover:bg-white/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {status === "loading" ? "..." : "Sign In / Request Access"}
             </button>
           </form>
         )}
 
-        {/* Back to form link for non-idle states */}
+        {/* Back to form link */}
         {(status === "requested" || status === "pending" || status === "denied") && (
           <button
             onClick={() => { setStatus("idle"); setEmail(""); setError(""); setMessage(""); }}
@@ -142,7 +145,7 @@ export default function LoginPage() {
         )}
 
         <p className="text-center text-xs text-white/20">
-          Only @createadvertising.com accounts can access Create Vault
+          Only @createadvertising.com accounts can access Auris
         </p>
       </div>
     </div>
